@@ -2,36 +2,36 @@ import getpass
 import portalpy
 import csv
 
-def getPortal():
+class Utilities(object):
     
-    portalUrl           = "" #"https://portalpy.esri.com/arcgis"
-    portalAdminName     = raw_input('Username: ') #"portaladmin"
-    portalAdminPassword = getpass.getpass() #"portaladmin"
+    def __init__(self):
+        
+        portalUrl           = "https://samdrummonddev.maps.arcgis.com" #"https://portalpy.esri.com/arcgis"
+        portalAdminName     = raw_input('Username: ') #"portaladmin"
+        portalAdminPassword = getpass.getpass() #"portaladmin"
 
-    portal = portalpy.Portal(portalUrl, portalAdminName, portalAdminPassword)
+        self._portal = portalpy.Portal(portalUrl, portalAdminName, portalAdminPassword)
     
-    return portal
+    def Group_Members(self):
     
-def getGroupMembers():
+        groupMembers = []
     
-    groupMembers = []
+        portal = self._portal
+        groups = portal.search_groups('a*')
     
-    portal = getPortal()
-    groups = portal.search_groups('a*')
-    
-    for group in groups:
-        id = group['id']
-        title = group['title']
+        for group in groups:
+            id = group['id']
+            title = group['title']
         
-        groupMembers = portal.get_group_members(id)
+            groupMembers = portal.get_group_members(id)
         
-        for members in groupMembers:
-            users['users']
+            for members in groupMembers:
+                users['users']
             
-            for user in users:
-                groupMembers.append([user, id, title])
+                for user in users:
+                    groupMembers.append([user, id, title])
                 
-    resultFile = open("GroupMembership.csv",'wb')
-    writer = csv.writer(resultFile, dialect='excel')
-    writer.writerow(groupMembers)
+        resultFile = open("GroupMembership.csv",'wb')
+        writer = csv.writer(resultFile, dialect='excel')
+        writer.writerow(groupMembers)
     
